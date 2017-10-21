@@ -7,6 +7,8 @@
 
 
 <h3>List</h3>
+
+<label>Search: <input ng-model="searchText"></label>
 	
 	<table class="table table-striped">
 		<tr>
@@ -18,7 +20,7 @@
 			<th>User</th>
 		</tr>
 
-		<tr ng-repeat="row in books">
+		<tr ng-repeat="row in books | filter:searchText">
 			<td>{{row.name}}</td>
 			<td>{{row.author}}</td>
 			<td>{{row.category_id}}</td>
