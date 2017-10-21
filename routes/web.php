@@ -11,17 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-
-
-
-Route::get('/new', function () { return view('book/new');  });
-Route::get('/edit', function () { return view('book/new');  });
-
-
-//Testing
-/*Route::get('/test', 'TestController@show');
-Route::get('/tinsert', 'TestController@insert');
-Route::get('/testview', 'TestController@view');*/
+//templates
+Route::get('/', function () {    return view('index'); });
+Route::get('/template/book/new', function () { return view('book/new');  });
+Route::get('/template/book/edit/{id}', 'BookController@edit');

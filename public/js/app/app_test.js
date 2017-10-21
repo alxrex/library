@@ -19,12 +19,12 @@ var template_url = 'http://localhost/library/public/template/'
             controller: 'listCtrlBook'
           })
           .when('/create/',{
-            templateUrl: template_url+'book/new.html',
+            templateUrl: site_url+'template/book/new',
             controller: 'newCtrlBook'
           })
           .when('/edit/:book_id?',{
               templateUrl: function(urlattr){
-                return template_url+'book/new.html/'+urlattr.book_id
+                return site_url+'template/book/edit/'+urlattr.book_id
             },
             controller: 'editCtrlBook'
           })

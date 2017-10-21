@@ -110,4 +110,11 @@ class BookController extends Controller
         $book = Book::find($id);
         $book->delete();
     }
+
+
+    //Tamplae
+    public function edit($id){
+        return view('book.edit');
+    }
+
 }
