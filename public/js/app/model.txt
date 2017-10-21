@@ -1,0 +1,26 @@
+
+
+[Book]
+name
+author
+category
+published_date
+user
+
+
+[category]
+name
+description
+manybooks
+
+
+
+Show a paginated list/table with all the books
+○ Filter the list/table mentioned above
+○ Create a book
+○ Edit a book
+○ Delete a Book
+○ Be able to know if a user borrowed a book or if it still
+available
+○ Be able to change the status from available to not available
+○ (use a modal for this feature)

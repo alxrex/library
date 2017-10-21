@@ -1,0 +1,81 @@
+<!-- Listado de Carros para administrar -->
+<div class="col-md-offset-3 col-md-3 pull-right"> 
+	<a href="#/create" class="btn btn-primary active">
+		Create <span class="glyphicon glyphicon-th-list"></span>
+	</a> 
+</div>
+
+
+<h3>List</h3>
+
+	
+	
+	<table class="table-striped">
+		<tr>
+			<th>Name</th>
+			<th>Author</th>
+			<th>Category</th>
+			<th>Published Date</th>
+			<th>Available</th>
+			<th>User</th>
+		</tr>
+
+		<tr ng-repeat="row in books">
+			<td>{{row.name}}</td>
+			<td>{{row.author}}</td>
+			<td>{{row.category_id}}</td>
+			<td>{{row.published_date}}</td>
+			<td><span ng-class="row.available == 1 ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove' "></span></td>
+			<td>{{row.user}}</td>
+
+			<td>
+				<a href="" class="btn btn-default" ng-click="setSelected(row);"
+				data-target="#modalChangeStatus" data-toggle="modal"><span class="glyphicon glyphicon-refresh"></span> Change Status</a>
+				<a href="#/edit/{{row.id}}" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+				<a href="" class="btn btn-default" ng-class="{'ng-confirm-click':action.confirm}"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+			</td>
+		</tr>
+
+	</table>
+
+<!-- Modal -->
+<div class="modal fade" id="modalChangeStatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Change Status</h4>
+      </div>
+      <div class="modal-body" >
+
+<div class="row">
+
+<form class="form-horizontal col-lg-8 col-md-8 col-sm-10">
+ 
+ <div class="form-group">
+    <label for="status" class="col-sm-2 control-label">Status</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="status" disabled="disabled" value="{{ selectedBook.available == 1 ?'Available': 'Not Available' }}">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="user" class="col-sm-2 control-label">User</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="user" placeholder="User" ng-model="selectedBook.user">
+    </div>
+  </div>
+
+</form>
+</div>
+
+      </div>
+      <div class="modal-footer">
+        <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

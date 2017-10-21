@@ -1,0 +1,222 @@
+/*
+//Aberracion de IE- No guardar cache para Ajax.
+testApp.config(['$httpProvider', function($httpProvider) {
+    //initialize get if not there
+    if (!$httpProvider.defaults.headers.get) {
+        $httpProvider.defaults.headers.get = {};
+    }]);
+
+testApp.directive('ngConfirmClick', [
+        function(){
+            return {
+                terminal: true,
+                link: function (scope, element, attr) {
+                    var msg = attr.ngConfirmClick || "Estas seguro?";
+                    var clickAction = attr.ngClick;
+                    element.bind('click',function (event) {
+                        if ( window.confirm(msg) ) {
+                            scope.$eval(clickAction)
+                        }
+                    });
+                }
+            };
+    }]);*/
+
+
+
+
+    
+
+
+//NUEVO
+bookController.controller('newCtrlBook',['$scope', '$location','dataBook',
+    function($scope,$location,dataBook){
+
+    $scope.book = {};
+    $scope.site_url =site_url;
+
+    $scope.status = '';
+    $scope.mensaje = '';
+
+    //Obtiene Listado de Brands
+    function getBrands(){
+        dataBook.get_brands()
+        .success(function(data){
+            $scope.brands = data;
+        }).error(function(error){
+            $scope.status=error.status;
+            $scope.mensaje = 'No se puede cargar informacion - '+error.mensaje;
+        });
+    };
+    //getBrands();
+
+
+    //Guardar
+    $scope.save = function () {
+
+        //Insertar
+        dataBook.post($scope.book)
+        .success(function (data) {
+            //Redireccionar
+            $scope.status = data.status;
+            $scope.mensaje = data.mensaje;
+            $location.path('/success/');
+        }).
+        error(function(error) {
+            $scope.status = error.estatus;
+            $scope.mensaje = 'No se pudo insertar carro: ' + error.mensaje;
+            if(error.error)
+            {
+                $scope.mensaje = 'Existen errores de validación: <br />';
+
+                if(error.error.length==0)
+                    $scope.mensaje += 'Existen campos requeridos';
+
+                for(var line in error)
+                {
+                    for(var error_field in error[line])
+                    {
+                        //Campo
+                        //console.log( error[line] );
+                        //Mensaje
+                        //console.log(error[line][error_field]);
+                        $scope.mensaje += error[line][error_field];
+                    }
+                }
+            }
+        });
+    };
+
+}]);
+
+
+
+//DETALLE
+bookController.controller('detalleCtrl',['$scope', '$location','dataBook', '$routeParams',
+    function($scope,$location,dataBook,$routeParams){
+
+    $scope.id = $routeParams.book_id;
+    $scope.book = {};
+    $scope.status = '';
+    $scope.mensaje = '';
+
+    /**
+     * getCar(): Obtiene el car solicitado con el id
+     * @author  Alejandro Aceves (aacevesn@conafor.gob.mx) 2014
+     */
+    function getCar(id){
+        dataBook.get(id)
+            .success(function(data){
+                $scope.mensaje = data.mensaje;
+                $scope.status = data.status;
+                $scope.book = data;
+                $scope.book.model = parseInt($scope.book.model);
+            }).error(function(error){
+                $scope.status = 'No se puede cargar informacion - '+error.mensaje;
+            });
+    };
+
+    //Obtener Datos
+    getCar($scope.id);
+
+}]);
+
+
+//***********************       UPDATE      ******************************************
+bookController.controller('editarCtrl',['$scope','$location','dataBook','$routeParams',
+    function($scope,$location,dataBook,$routeParams){
+
+    $scope.id = $routeParams.book_id;
+    $scope.book = {};
+    $scope.brands = [];
+    $scope.status = '';
+    $scope.mensaje = '';
+    $scope.site_url =site_url;
+
+    /**
+     * getCar(): Obtiene el car solicitado con el id
+     * @author  Alejandro Aceves (aacevesn@conafor.gob.mx) 2014
+     */
+    function getCar(id){
+        dataBook.get(id)
+            .success(function(data){
+                $scope.mensaje = data.mensaje;
+                $scope.status = data.status;
+                $scope.book = data;
+                $scope.book.model = parseInt($scope.book.model);
+            }).error(function(error){
+                $scope.status = 'No se puede cargar informacion - '+error.mensaje;
+            });
+    };
+
+
+    //Obtiene Listado de Brands
+    function getBrands(){
+        dataBook.get_brands()
+        .success(function(data){
+            $scope.brands = data;
+
+            //Obtener Datos
+            getCar($scope.id);
+
+        }).error(function(error){
+            $scope.status = 'No se puede cargar informacion - '+error.mensaje;
+        });
+    };
+    getBrands();
+
+
+    //Guardar
+    $scope.save = function () {
+        //Actualizar
+        dataBook.update($scope.book)
+        .success(function (data) {
+            //Redireccionar
+            $scope.status = data.status;
+            $scope.mensaje = data.mensaje;
+            $location.path('/success/');
+        }).
+        error(function(error) {
+            $scope.status = error.estatus;
+            $scope.mensaje = 'No se pudo actualizar carro: ' + error.mensaje;
+            if(error.error)
+            {
+                $scope.mensaje = 'Existen errores de validación: <br />';
+
+                for(var line in error)
+                {
+                    for(var error_field in error[line])
+                    {
+                        $scope.mensaje += error[line][error_field];
+                    }
+                }
+            }
+        });
+
+    };
+
+}]);
+
+
+//Success
+bookController.controller('successCtrl',['$scope', '$location',
+    function($scope,$location){
+        //No se hace nada ^^
+}]);
+
+bookController.directive('ngConfirmClick', [
+        function(){
+            return {
+                priority: 1,
+                terminal: true,
+                link: function (scope, element, attr) {
+                    var msg = attr.ngConfirmClick || "Estas seguro?";
+                    var clickAction = attr.ngClick;
+                    element.bind('click',function (event) {
+                        if ( window.confirm(msg) ) {
+                            scope.$eval(clickAction)
+                        }
+                    });
+                }
+            };
+    }])
