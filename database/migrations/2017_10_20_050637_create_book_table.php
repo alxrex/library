@@ -36,15 +36,14 @@ class CreateBookTable extends Migration
             $table->integer('category_id')->unsigned();
             $table->date('published_date')->nullable();
             $table->string('user',255)->nullable();
-            $table->boolean('available')->defautl(0);
-            $table->date('created')->nullable();
+            $table->boolean('available')->default(0);
 
         });
 
         Schema::table('book', function (Blueprint $table) {
             $table->foreign('category_id')
                 ->references('id')->on('category')
-                ->onDelete('restrict');
+                ->onDelete('cascade');
         });
 
         Schema::create('category_book', function (Blueprint $table) {
@@ -63,7 +62,8 @@ class CreateBookTable extends Migration
     public function down()
     {
         Schema::dropIfExists('category_book');
-        Schema::dropIfExists('category');
         Schema::dropIfExists('book');
+        Schema::dropIfExists('category');
+        
     }
 }

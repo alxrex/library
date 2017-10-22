@@ -23,7 +23,7 @@
 		<tr ng-repeat="row in books | filter:searchText">
 			<td>{{row.name}}</td>
 			<td>{{row.author}}</td>
-			<td>{{row.category_id}}</td>
+			<td>{{row.category_name}}</td>
 			<td>{{row.published_date}}</td>
 			<td><span ng-class="row.available == 1 ? 'glyphicon glyphicon-ok' : 'glyphicon glyphicon-remove' "></span></td>
 			<td>{{row.user}}</td>

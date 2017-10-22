@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Book;
 
 class BookController extends Controller
@@ -15,7 +16,11 @@ class BookController extends Controller
     public function index()
     {
         //Get all
-        return Book::all();
+        //return Book::all();
+        return DB::table('book')
+            ->leftjoin('category as c','c.id','=','book.category_id')
+            ->select('book.*','c.name as category_name')
+            ->get();
     }
 
     public function search()

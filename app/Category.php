@@ -18,6 +18,6 @@ class Category extends Model
     */
     public function books()
     {
-        return $this->hasMany('App\CategoryBook');
+        return $this->hasMany('App\Book');
     }
 }
