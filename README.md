@@ -31,4 +31,4 @@ php artisan make:migration
 php artisan db:seed --class=BookTableSeeder
 ```
 
-3.  If you have cloned the repository from `git clone git@github.com:alxrex/library.git`, Brose: http://locahost/library/public
+3.  If you have cloned the repository from `git clone git@github.com:alxrex/library.git`, Brose: http://localhost/library/public
